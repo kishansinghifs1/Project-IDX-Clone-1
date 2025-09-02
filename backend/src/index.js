@@ -15,10 +15,11 @@ app.get("/", (req, res) => {
 
 app.get("/ping" , (req,res)=> {
   res.json({
-    "message" : "pong cutie pie"
+    "message" : "pong cutie pie",
+    "contact" : "king"
   })
 })
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`); 
+  console.log(`🚀 Server is running on port ${PORT}`); git
 });
