@@ -32,3 +32,33 @@ npm i cookie-parser
  Caching=>key value pair form
  diff btw stale time: data is how much fresh
   nd cache time:how long data should be kept in the cache before it be garbage collect
+  ___________________________
+  vertical Scaling: icrease capacity of one server too much
+  horizontal Scaling: same capacity bring  more than 1 server
+  nested projects-complex binary blocks(raw exact data)
+  these horizontal server consist in Centralized storage (AWS s3)
+  ------------------
+  client -->click button on {create project}----->LOAD BALANCER----->{S1,S2,S3}----->(AWS s3)
+  ________________________
+  client send requesr to server
+       |
+    Execute vite command
+       |
+       apne server ki HDD mai ek unique  project ID ke sth create kre 
+_______________________________________________
+Exec function(take a comman dand execute for u)
+exec → runs a command in a shell and buffers output.
+
+spawn → streams real-time output, useful for long logs.
+
+fork → runs another Node.js script with message passing.
+__________________________
+What is child_process? → Node’s way to run system commands/programs.
+
+Why did you need it? → To programmatically run vite@latest and other CLI tools.
+
+What role did it play? → It acted like the bridge between Node.js and the system terminal.
+_________________________________
+*UUID{Universally Unique Identifier}128-bit number  (Uniquely identifies objects in Computer System)
+npm i uuid4
+______________
