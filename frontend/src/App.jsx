@@ -1,12 +1,13 @@
 import './App.css'
-import { PingComponents } from './componenets/atoms/PingComponents';
+import { Routes,Route } from 'react-router-dom'
+import { CreateProject } from './pages/CreateProject';
 
 function App() {
 
 return (
-  <>
-Hello
-  </>
+  <Routes>
+    <Route path="/" element={<CreateProject/>}/>
+  </Routes>
 )
 }
 
