@@ -23,3 +23,12 @@ npm i cookie-parser
  npm install dotenv
  npm i express
  npm i cors
+  npm i @tanstack/react-query
+ --------------
+ components(atoms,molecules,organism)Atomic designs
+ data “segregate”:(NETWORK CALLING)
+ queries=>to read the data
+ mutation=>to modify the data
+ Caching=>key value pair form
+ diff btw stale time: data is how much fresh
+  nd cache time:how long data should be kept in the cache before it be garbage collect

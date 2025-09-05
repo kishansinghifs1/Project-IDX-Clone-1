@@ -1,5 +1,5 @@
 {
-  "name": "Backend",
+  "name": "backend",
   "version": "1.0.0",
   "main": "src/index.js",
   "type": "module",
@@ -8,6 +8,7 @@
     "dev": "nodemon src/index.js"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.85.9",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
