@@ -82,3 +82,7 @@ A software module (class, function, component, service, etc.) should be open for
 always use in web development {must}
 ___________________________________________
 import Editor from '@monaco-editor/react'; provide editor
+------------------------------------------
+create a store {zustand} activeFiletabstore
+---->three parameter path, value,extension
+----------------------------------

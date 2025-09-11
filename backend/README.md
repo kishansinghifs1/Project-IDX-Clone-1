@@ -27,3 +27,24 @@ we are using
 const execPromisified=util.promisify(child_process.exec);
 this promisified function comes from util module(internal node.js module)
 __________________________________________________
+path--> nested folder and  file structure---> genterate in tree form
+{recursive function/DFS}
+function getPaths(node, path = "", result = []) {
+  const currentPath = path ? `${path}/${node.name}` : node.name;
+
+  if (!node.children || node.children.length === 0) {
+    result.push(currentPath); // file
+  } else {
+    for (let child of node.children) {
+      getPaths(child, currentPath, result);
+    }
+  }
+  return result;
+}
+
+console.log(getPaths(fileSystem));
+------------------------------------
+this is code but we have module for this 
+npm i directory-tree
+import directoryTree from 'directory-tree';
+import path from "path";
