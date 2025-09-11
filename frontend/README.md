@@ -61,4 +61,24 @@ What role did it play? → It acted like the bridge between Node.js and the syst
 _________________________________
 *UUID{Universally Unique Identifier}128-bit number  (Uniquely identifies objects in Computer System)
 npm i uuid4
-______________
+__________________________
+when we click on button it trigger
+handleCreateProject-->trigger api call in backend
+we use here {react-query}
+1.query-->only for read
+2.mutation--->for modification
+_______________________
+handleCreateProject---->createProjectMutation---->useCreateProjec(custom hook)---->createProjectApi(api call which we can modify too)---->     
+ const response = await axios.post('/api/v1/projects');
+__________________________________
+Single Responsibility Principle (SRP)
+
+this means every piece of your application should focus on doing one specific thing well
+
+Open/Closed Principle (OCP)
+
+A software module (class, function, component, service, etc.) should be open for extension but closed for modification.
+-----------------------------------
+always use in web development {must}
+___________________________________________
+import Editor from '@monaco-editor/react'; provide editor
