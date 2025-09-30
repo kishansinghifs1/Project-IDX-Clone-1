@@ -86,3 +86,53 @@ import Editor from '@monaco-editor/react'; provide editor
 create a store {zustand} activeFiletabstore
 ---->three parameter path, value,extension
 ----------------------------------
+queryClient.fetchQuery
+const queryClient = new QueryClient();
+-------------------------------------------------
+That’s what QueryClient does.
+
+First time: it fetches the API.
+
+Next time: it gives the cached data instantly.
+
+If data is old, it can refresh in the background.
+--------------------------------------------------
+1. we constructed basic API getProjectTree --->await axios.get(`/api/v1/projects/${projectId}/tree`);
+2. we constructed store-->treeStructure
+--------------------------------------------
+setter and getter in project id from zustand store(get,set)
+---------------------------
+data consist of{path,name,children(if consist then folder if not then file)}
+-----------------------------------------
+file and folder are in form of n- array tree
+using it as recursive approch (recursive work)-----> have three parts
+1.self work
+2.recursuve assumption
+3.base case
+useState is used to track which folders are expanded or collapsed[visibility].
+-----------------------------------------------------------------
+...visibility → copy all existing folder states (so nothing else changes).
+
+[name]: !visibility[name] → flip the visibility of the clicked folder only.
+
+Example: Clicking "components":
+
+// Before click
+visibility = { "src": true, "components": false }
+
+// After click
+visibility = { "src": true, "components": true }
+
+
+✅ Only the clicked folder changes; all others stay the same.
+----------------------------------------------------------------------------
+Mutable approach: you erase “components: closed” and write “components: open” on the same page.
+
+Problem: someone else looking at the page may not notice the change immediately.
+
+Immutable approach: you take a new page, copy everything, and then change “components: open” on the new page.
+
+React sees a new page → knows something changed → updates the UI.
+[keep it in mind]
+-------------------------------------------------------------------------------
+how to design a nested folder structure in java script

@@ -43,8 +43,10 @@ function getPaths(node, path = "", result = []) {
 }
 
 console.log(getPaths(fileSystem));
+{Prefix tree/Array tree}
 ------------------------------------
 this is code but we have module for this 
 npm i directory-tree
 import directoryTree from 'directory-tree';
 import path from "path";
+ 
