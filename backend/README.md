@@ -49,4 +49,18 @@ this is code but we have module for this
 npm i directory-tree
 import directoryTree from 'directory-tree';
 import path from "path";
- 
+ --------------------------
+ npm install socket.io
+we already make app server---->while use app object we created http module server
+
+{i want in my backned http server also work and websocket server also work }
+const app = express();
+const server=createServer(app);
+const io=new Server(server); 
+creating combine server 
+--------------------------------
+event driven Mechanism
+react io connection 
+"Namespaces" to seperate editor and terminal eventhandlers
+"chokidar" watch the changes in file
+better than fs.watch

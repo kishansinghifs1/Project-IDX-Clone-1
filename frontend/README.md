@@ -134,5 +134,33 @@ Immutable approach: you take a new page, copy everything, and then change “com
 
 React sees a new page → knows something changed → updates the UI.
 [keep it in mind]
--------------------------------------------------------------------------------
+----------------------------------------------------
 how to design a nested folder structure in java script
+------------------------------------------------
+ when user 1 send--------> data to server ------->user2
+ we can use polling {but not good in our case}
+ we can use Websockets--->TCP(pipelining)--->
+ server-->connect-->client
+ client--->connect-->server
+ server---> can connect to both---> client  
+ use in chatEngine
+ client 1 send--->server--->push--->to client1
+ we use socket.io
+ use in both frontend and express both
+ ----------------------------------------
+ i want whenver i open editor its open and
+  whenever back in folder its should open and edited part should show
+  in sandbox 2 user can work together
+  2 user working on same point at same time
+  -------------------------------
+  💡 Summary:
+
+const socket = io('http://localhost:5000');
+
+➡️ This line creates a live connection between your React frontend and your Node.js (Socket.IO) backend running on http://localhost:5000.
+
+Once connected:
+
+The server detects this client and triggers the "connection" event.
+
+You can now send and receive real-time messages (like chat, notifications, live updates, etc.) between the frontend and backend instantly — without page reloads.
