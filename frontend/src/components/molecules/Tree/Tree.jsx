@@ -1,77 +1,78 @@
-import { IoIosArrowForward,IoIosArrowDown  } from "react-icons/io";
+import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 import { FileIcon } from "../../atoms/FileIcon/FileIcon";
+import { useEditorSocketStore } from "../../../store/editorSocketStore";
 
 export const Tree = ({ fileFolderData }) => {
-  const [visibility, setvisibility] = useState({});
+  const [visibility, setVisibility] = useState({});
+  const { editorsocket } = useEditorSocketStore(); // ⚠ make sure store uses 'editorsocket'
 
-  function toggleVisibility(name) {
-    setvisibility({
-      ...visibility,
-      [name]: !visibility[name]
-    }); 
-  }
-  function computeExtension(fileFolderData){
-    const names=fileFolderData.name.split(".");
-    return names[names.length-1];
-  }
+  // Toggle folder open/close safely using path as key
+  const toggleVisibility = (path) => {
+    setVisibility((prev) => ({
+      ...prev,
+      [path]: !prev[path],
+    }));
+  };
 
+  const computeExtension = (file) => {
+    const names = file.name.split(".");
+    return names[names.length - 1];
+  };
+
+  // Double-click handler for files
+  const handleDoubleClick = (file) => {
+    if (!editorsocket) {
+      console.warn("Socket not ready yet:", file.path);
+      return; // prevent crash
+    }
+
+    console.log("Double clicked file:", file);
+    editorsocket.emit("readFile", { pathToFileOrFolder: file.path });
+  };
 
   return (
     fileFolderData && (
-      <div
-        style={{
-          paddingLeft: "15px",
-          color: "white",
-        }}
-      >
-        {fileFolderData.children/* if the current node is a folder render this button then*/ ? (
-          /* if the current node is a folder ,render it as a button*/
+      <div style={{ paddingLeft: "15px", color: "white" }}>
+        {fileFolderData.children ? (
           <button
-            onClick={() => toggleVisibility(fileFolderData.name)}
+            onClick={() => toggleVisibility(fileFolderData.path)} // use path as unique key
             style={{
               border: "none",
               cursor: "pointer",
               outline: "none",
               color: "white",
-              backgroundColor:"transparent",
+              backgroundColor: "transparent",
               paddingTop: "15px",
               fontSize: "16px",
             }}
           >
-            {/* folder */}
-            {visibility[fileFolderData.name]?<IoIosArrowDown/>:<IoIosArrowForward/>}
+            {visibility[fileFolderData.path] ? <IoIosArrowDown /> : <IoIosArrowForward />}
             {fileFolderData.name}
           </button>
         ) : (
-          /* if the current node is not a folder,render it as p {it is for the file}*/
-
-          <div style={{display:"flex",alignItems:"center"}}>
-            <FileIcon extension={computeExtension(fileFolderData)}/>
-          <p
-            style={{
-              paddingTop: "5px",
-              fontSize: "15px",
-              cursor: "pointer",
-              color:"white",
-              marginLeft: "5px",
-            }}
-          >
-            {fileFolderData.name}
-          </p>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <FileIcon extension={computeExtension(fileFolderData)} />
+            <p
+              style={{
+                paddingTop: "5px",
+                fontSize: "15px",
+                cursor: "pointer",
+                color: "white",
+                marginLeft: "5px",
+              }}
+              onDoubleClick={() => handleDoubleClick(fileFolderData)}
+            >
+              {fileFolderData.name}
+            </p>
           </div>
         )}
-        {/* not work for file */}
-        {visibility[fileFolderData.name]// want to see folder nd have folder thrn
-         &&
-           fileFolderData.children //if it null this part dont work
-            && 
-          (fileFolderData.children.map((child) => (
-            <Tree fileFolderData={child}
-             key={child.name}
-              />
-          ))
-          )}
+
+        {/* Render children recursively if folder is open */}
+        {visibility[fileFolderData.path] &&
+          fileFolderData.children?.map((child) => (
+            <Tree key={child.path} fileFolderData={child} />
+          ))}
       </div>
     )
   );

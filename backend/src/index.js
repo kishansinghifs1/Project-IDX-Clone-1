@@ -5,7 +5,9 @@ import { Server } from "socket.io";
 import { PORT } from "./config/serverConfig.js";
 import apiRouter from "./routes/index.js";
 import chokidar from "chokidar";
-import path from "path";
+import { handleEditorSocket } from "./socketHandlers/editorHandler.js";
+
+
 /*important */
 const app = express();
 const server = createServer(app); //create http module server
@@ -21,10 +23,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-io.on("connection", (socket) => {
-  console.log(` a user connected`);
-}); //"Whenever a new client connects to the server, run the following function.”
-
 app.use("/api", apiRouter);
 
 app.get("/", (req, res) => {
@@ -35,7 +33,9 @@ const editorNamespace = io.of("/editor");
 editorNamespace.on("connection", (socket) => {
   console.log("editor is connected");
   //somehow we will get projectId from frontend
-  let projectId = "1234";
+  console.log(socket.handshake.query['projectId']);
+  let projectId = socket.handshake.query['projectId'];
+  console.log("projectId received after connection", projectId);
   if (projectId) {
     var watcher = chokidar.watch(`./projects/${projectId}`, {
       ignored: (path) => path.includes("node_modules"), //ignoring node_modules folder
@@ -51,13 +51,7 @@ editorNamespace.on("connection", (socket) => {
       console.log(event, path);
     });
   }
-  socket.on("message", (data) => {
-    console.log("got a message event", data);
-  });
-  socket.on("disconnect", async() => {
-    await watcher.close(); //stop watching the project folder
-    console.log("editor disconnected");
-});
+  handleEditorSocket(socket);
 
 });
 

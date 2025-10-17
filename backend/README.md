@@ -64,3 +64,15 @@ react io connection
 "Namespaces" to seperate editor and terminal eventhandlers
 "chokidar" watch the changes in file
 better than fs.watch
+----------------------------------------
+Component       	Purpose
+Express	               Manages HTTP routes and middleware
+HTTP Server	           Enables integration with Socket.io
+Socket.io	             Handles real-time bidirectional communication
+/editor Namespace 	   Dedicated space for live code editing and collaboration
+Chokidar   	           Watches project directories for file changes
+handleEditorSocket	   Encapsulates editor-specific socket logic
+CORS                   Enabled Allows connections from any frontend origin
+-----------------------------------------
+npm i querystring
+socket io query params with react

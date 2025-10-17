@@ -164,3 +164,15 @@ Once connected:
 The server detects this client and triggers the "connection" event.
 
 You can now send and receive real-time messages (like chat, notifications, live updates, etc.) between the frontend and backend instantly — without page reloads.
+------------------------------------------
+backend to frontend to backend connection of socket  editor
+------------------------------------------------
+1.projectplayground(main)--->fetch projectId_Url 
+2.then we setup editor socket connection----->call to io of editor
+3.add socket connection---->store setEditorSocket(editorSocketConn)
+4.as in my folder structure {i will double click on any file}---->editorsocket.emit -->readFile
+----->frontend to backend
+hey backend want to read file
+backend take up  the event go to editorHandler read the file emit a event  that file read succesfully this is value and apth of file----->return to fronteend{editorComepoent} editorsocket?.on(as get readFIleSuccess)
+5.log it --->send to SetActiveFiletab store
+--->the file which is active put it in the value  of editorstate and editorComponent
