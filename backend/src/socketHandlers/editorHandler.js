@@ -1,11 +1,12 @@
 import fs from "fs/promises";
 
-export const handleEditorSocket = (socket) => {
+export const handleEditorSocket = (socket,editorNamespace) => {
   socket.on("writeFile", async ({ data, pathToFileOrFolder }) => {
     try {
       const response = await fs.writeFile(pathToFileOrFolder, data);
-      socket.emit("writeFileResponse", {
+      editorNamespace.emit("writeFileResponse", {
         data: "file written successfully",
+        path: pathToFileOrFolder,
       });
     } catch (error) {
       console.log("Error writing file", error);
@@ -52,8 +53,9 @@ export const handleEditorSocket = (socket) => {
   socket.on("deleteFile", async ({ pathToFileOrFolder }) => {
     try {
       const response = await fs.unlink(pathToFileOrFolder);
-      socket.emit("deleteFileResponse", {
+      socket.emit("deleteFileSuccess", {
         data: "File deleted successfully",
+        path: pathToFileOrFolder,
       });
     } catch (error) {
       console.log("Error deleting file", error);
@@ -78,7 +80,8 @@ export const handleEditorSocket = (socket) => {
   socket.on("deleteFolder", async ({ pathToFileOrFolder })=>{
     try {
         const response = await fs.rmdir(pathToFileOrFolder, { recursive: true });
-        socket.emit("deleteFolderResponse", {
+        socket.emit("deleteFolderSuccess", {
+           path: pathToFileOrFolder,
             data: "Folder deleted successfully",
             });
         } catch (error) {

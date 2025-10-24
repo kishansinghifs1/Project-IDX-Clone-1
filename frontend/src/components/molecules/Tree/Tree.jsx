@@ -2,10 +2,17 @@ import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 import { FileIcon } from "../../atoms/FileIcon/FileIcon";
 import { useEditorSocketStore } from "../../../store/editorSocketStore";
+import { useFileCOntextMenuStore } from "../../../store/fileContextMenuStore";
 
 export const Tree = ({ fileFolderData }) => {
   const [visibility, setVisibility] = useState({});
   const { editorsocket } = useEditorSocketStore(); // ⚠ make sure store uses 'editorsocket'
+  const{
+    setFile,
+    setIsOpen: setFileContextMenuIsOpen,
+    setX:setFileContextMenuX,
+    setY:setFileContextMenuY
+  }=useFileCOntextMenuStore();
 
   // Toggle folder open/close safely using path as key
   const toggleVisibility = (path) => {
@@ -19,6 +26,15 @@ export const Tree = ({ fileFolderData }) => {
     const names = file.name.split(".");
     return names[names.length - 1];
   };
+  function handleContextMenuForFiles(e,path){
+    e.preventDefault();
+    console.log("Right click detected on file:", path,e);
+    setFile(path);
+    setFileContextMenuX(e.clientX);
+    setFileContextMenuY(e.clientY);
+    setFileContextMenuIsOpen(true);
+  
+  }
 
   // Double-click handler for files
   const handleDoubleClick = (file) => {
@@ -27,7 +43,6 @@ export const Tree = ({ fileFolderData }) => {
       return; // prevent crash
     }
 
-    console.log("Double clicked file:", file);
     editorsocket.emit("readFile", { pathToFileOrFolder: file.path });
   };
 
@@ -61,6 +76,7 @@ export const Tree = ({ fileFolderData }) => {
                 color: "white",
                 marginLeft: "5px",
               }}
+              onContextMenu={(e)=>handleContextMenuForFiles(e,fileFolderData.path)}
               onDoubleClick={() => handleDoubleClick(fileFolderData)}
             >
               {fileFolderData.name}

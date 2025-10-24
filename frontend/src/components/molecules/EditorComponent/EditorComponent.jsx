@@ -1,62 +1,58 @@
 import Editor from '@monaco-editor/react';
 import { useEffect, useState } from 'react';
-import { useEditorSocketStore } from '../../../store/editorSocketStore';
 import { useActiveFileTabStore } from '../../../store/activeFileTabStore';
+import { useEditorSocketStore } from '../../../store/editorSocketStore';
 
 export const EditorComponent = () => {
-  const [editorState, setEditorState] = useState({ theme: null });
-  const { editorsocket } = useEditorSocketStore();
-  const { activeFileTab, setActiveFileTab } = useActiveFileTabStore();
+  let timeId=null; // for debouncing
+  const [theme, setTheme] = useState(null);
+  const { activeFileTab } = useActiveFileTabStore();
+  const  {editorsocket}=useEditorSocketStore();
 
-  // Fetch theme safely
-  async function downloadTheme() {
-    try {
-      const response = await fetch('/Dracula.json');
-      if (!response.ok) throw new Error("Failed to load theme");
-      const data = await response.json();
-      setEditorState(prev => ({ ...prev, theme: data }));
-    } catch (err) {
-      console.error("Error loading theme:", err);
+  // Load theme
+  useEffect(() => {
+    async function loadTheme() {
+      try {
+        const response = await fetch('/Dracula.json');
+        if (!response.ok) throw new Error("Failed to load theme");
+        const data = await response.json();
+        setTheme(data);
+      } catch (err) {
+        console.error("Error loading theme:", err);
+      }
     }
-  }
+    loadTheme();
+  }, []);
 
-  // Apply theme when editor mounts
-  function handleEditorTheme(editor, monaco) {
-    if (!editorState.theme) return; 
+  const handleEditorTheme = (editor, monaco) => {
+    if (!theme) return;
     try {
-      monaco.editor.defineTheme('dracula', editorState.theme);
+      monaco.editor.defineTheme('dracula', theme);
       monaco.editor.setTheme('dracula');
     } catch (err) {
       console.error("Failed to apply theme:", err);
     }
+  };
+  function handleChange(value){
+    //clear old timer
+    if(timeId!==null){
+      clearTimeout(timeId);
+    }
+    //set new timer
+    timeId=setTimeout(()=>{
+    const editorContent=value;
+    console.log("Sending writefile event");
+    editorsocket.emit("writeFile",{
+      data:editorContent,
+      pathToFileOrFolder:activeFileTab.path
+    });
+    },2000);// 2000ms delay
+
   }
-
-  // Subscribe to socket events safely
-  useEffect(() => {
-    if (!editorsocket) return;
-
-    const handleReadFileSuccess = (data) => {
-      console.log("Read file success", data);
-      if (data?.path && data?.value) {
-        setActiveFileTab(data.path, data.value);
-      }
-    };
-
-    editorsocket.on("readFileSuccess", handleReadFileSuccess);
-
-    return () => {
-      editorsocket.off("readFileSuccess", handleReadFileSuccess);
-    };
-  }, [editorsocket, setActiveFileTab]);
-
-  // Download theme on mount
-  useEffect(() => {
-    downloadTheme();
-  }, []);
 
   return (
     <div style={{ height: "100vh", width: "100%" }}>
-      {editorState.theme && (
+      {theme && (
         <Editor
           height="80vh"
           width="100%"
@@ -66,6 +62,7 @@ export const EditorComponent = () => {
             fontSize: 18,
             fontFamily: "monospace",
           }}
+          onChange={handleChange}//monaco event onchange
           onMount={handleEditorTheme}
         />
       )}

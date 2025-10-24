@@ -176,3 +176,21 @@ hey backend want to read file
 backend take up  the event go to editorHandler read the file emit a event  that file read succesfully this is value and apth of file----->return to fronteend{editorComepoent} editorsocket?.on(as get readFIleSuccess)
 5.log it --->send to SetActiveFiletab store
 --->the file which is active put it in the value  of editorstate and editorComponent
+--------------------------------------
+now for changing any thin gon mpnaco editor will change in backend --->handlechange in editor Component
+---------------------------------------------
+------------- (debouncing) important ques in interview------------
+
+as I type 1-1 character it will throw event for each character can pay more load on backend so 
+we use concept of {debouncing}
+React debouncing is a way to wait until the user stops typing, scrolling, or clicking before doing something expensive — like fetching data or updating the UI.
+-----------------------------------------------------
+implement:
+socket.io rooms
+each room has --> unique room id--->projectId/pathId
+implement rooms in project (configuring editor Socket)
+00:58:47
+context for folder
+1:33:30
+----------------------------------------------
+handle tree --> onContextmenu--> by right click
