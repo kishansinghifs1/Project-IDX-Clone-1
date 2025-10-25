@@ -186,11 +186,14 @@ we use concept of {debouncing}
 React debouncing is a way to wait until the user stops typing, scrolling, or clicking before doing something expensive — like fetching data or updating the UI.
 -----------------------------------------------------
 implement:
-socket.io rooms
+configuring editor socket
+1.socket.io rooms
 each room has --> unique room id--->projectId/pathId
 implement rooms in project (configuring editor Socket)
 00:58:47
-context for folder
-1:33:30
+{right click property}
+2.context for folder
+1:30:30
+3..how to attach ctrl+ b event listener
 ----------------------------------------------
 handle tree --> onContextmenu--> by right click

@@ -58,23 +58,26 @@ export const Tree = ({ fileFolderData }) => {
               outline: "none",
               color: "white",
               backgroundColor: "transparent",
-              paddingTop: "15px",
+              padding: "15px",
               fontSize: "16px",
+              marginTop: "10px",
             }}
           >
             {visibility[fileFolderData.path] ? <IoIosArrowDown /> : <IoIosArrowForward />}
             {fileFolderData.name}
           </button>
         ) : (
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center" ,justifyContent:"start"}}>
             <FileIcon extension={computeExtension(fileFolderData)} />
             <p
               style={{
-                paddingTop: "5px",
+                paddingTop: "15px",
+                paddingBottom: "15px",
+                marginTop: "8px",
                 fontSize: "15px",
                 cursor: "pointer",
                 color: "white",
-                marginLeft: "5px",
+                marginLeft: "15px",
               }}
               onContextMenu={(e)=>handleContextMenuForFiles(e,fileFolderData.path)}
               onDoubleClick={() => handleDoubleClick(fileFolderData)}

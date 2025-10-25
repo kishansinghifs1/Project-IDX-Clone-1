@@ -18,8 +18,9 @@ export const useEditorSocketStore = create((set) => ({
     incomingSocket.off("readFileSuccess"); // prevent duplicate listeners
     incomingSocket.on("readFileSuccess", (data) => {
       console.log("Read file success:", data);
+      const fileExtension = data?.path?.split('.').pop();
       if (data?.path && data?.value) {
-        setActiveFileTab(data.path, data.value);
+        setActiveFileTab(data.path, data.value, fileExtension);
       }
     });
     incomingSocket?.on("writeFileSuccess", (data) => {
